@@ -5,5 +5,10 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "app.py" }
-  ]
+  ],
+  "functions": {
+    "python": {
+      "runtime": "python3.9"
+    }
+  }
 }
