@@ -2,21 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "config": { "runtime": "python3.9" }
+      "src": "api/app.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "api/app.py"
     }
-  ],
-  "env": {
-    "FLASK_ENV": "production",
-    "SECRET_KEY": "your_secret_key_here",
-    "DATABASE_URL": "your_database_url_here"
-  }
+  ]
 }
+
