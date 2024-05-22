@@ -3,7 +3,8 @@
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
     },
     {
       "src": "static/**/*",
@@ -21,3 +22,4 @@
     "FLASK_APP": "app.py"
   }
 }
+
