@@ -3,14 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
+    <title>Image Search Result</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 </head>
 <body>
-    <h1>Uploaded Image</h1>
-    <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Image">
-    <h1>Most Similar Image</h1>
-    <img src="{{ url_for('static', filename='images/' + similar_image) }}" alt="Similar Image">
-    <br><br>
-    <a href="{{ url_for('index') }}">Upload Another Image</a>
+    <div class="container">
+        <h1 class="mt-5">Image Search Result</h1>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h2>Uploaded Image:</h2>
+                <img src="{{ url_for('static', filename='uploads/' ~ uploaded_image) }}" alt="Uploaded Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                {% if similar_image %}
+                    <h2>Similar Image Found:</h2>
+                    <img src="{{ url_for('static', filename='images/' ~ similar_image) }}" alt="Similar Image" class="img-fluid">
+                {% else %}
+                    <h2>No similar image found.</h2>
+                {% endif %}
+            </div>
+        </div>
+        <a href="/" class="btn btn-primary mt-4">Search Another Image</a>
+    </div>
 </body>
 </html>
