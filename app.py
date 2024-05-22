@@ -11,15 +11,18 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
+# Ensure the upload and images directories exist
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 if not os.path.exists('static/images'):
     os.makedirs('static/images')
 
+# Load pre-trained ResNet50 model + higher level layers
 model = ResNet50(weights='imagenet', include_top=False, pooling='avg')
 
 def extract_features(img_path):
+    """Extract features from an image using ResNet50."""
     img = image.load_img(img_path, target_size=(224, 224))
     img_data = image.img_to_array(img)
     img_data = np.expand_dims(img_data, axis=0)
@@ -33,6 +36,7 @@ def find_similar_image(upload_path):
         closest_image = None
         highest_similarity = -1
 
+        print("Starting search for similar images in the 'images' directory.")
         for image_name in os.listdir('static/images'):
             image_path = os.path.join('static/images', image_name)
             image_features = extract_features(image_path)
@@ -41,10 +45,13 @@ def find_similar_image(upload_path):
             if similarity > highest_similarity:
                 highest_similarity = similarity
                 closest_image = image_name
+                print(f"Found closer image: {image_name} with similarity {similarity}")
 
+        print(f"Most similar image found: {closest_image}")
         return closest_image
 
     except Exception as e:
+        print(f"Error finding similar image: {e}")
         return None
 
 @app.route('/', methods=['GET', 'POST'])
@@ -62,6 +69,7 @@ def index():
                 filename = secure_filename(file.filename)
                 upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(upload_path)
+                print(f"File {filename} uploaded successfully to {upload_path}")
                 return redirect(url_for('result', filename=filename))
             except Exception as e:
                 flash(f"Error saving file: {e}")
@@ -80,4 +88,3 @@ def result(filename):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
