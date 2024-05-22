@@ -4,6 +4,10 @@
     {
       "src": "app.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "static/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -13,9 +17,7 @@
     }
   ],
   "env": {
-    "FLASK_APP": "app.py",
-    "FLASK_ENV": "production",
-    "SECRET_KEY": "supersecretkey"
+    "FLASK_ENV": "development",
+    "FLASK_APP": "app.py"
   }
 }
-
